@@ -15,17 +15,18 @@ void primeSieve(ll int *p)
     p[1] = p[0] = 0;
 }
 
-int getPrimesBetween(ll int *p, ll int a, ll int b)
+ll int getPrimesBetween(ll int *p, ll int a, ll int b)
 {
-    int count = 0;
-    for (int i = a; i <= b; i++)
+    ll int count = 0;
+    for (ll int i = a; i <= b; i++)
     {
         if (p[i])
             count++;
     }
     return count;
 }
-int computeCumSum(ll int *p)
+
+void computeCumSum(ll int *p)
 {
     for (ll int i = 3; i <= 1000000; i++)
     {
@@ -34,19 +35,20 @@ int computeCumSum(ll int *p)
 }
 int main()
 {
-    ll int primes[1000001] = {0};
-    int n;
+    ll int primes[1000005] = {0};
+    ll int n;
     cin >> n;
     ll int a[n], b[n];
-    for (int i = 0; i < n; i++)
+    for (ll int i = 0; i < n; i++)
     {
         cin >> a[i] >> b[i];
     }
     primeSieve(primes);
-    computeCumSum(primes);
-    for (int i = 0; i < n; i++)
+    // computeCumSum(primes);
+    for (ll int i = 0; i < n; i++)
     {
-        cout << primes[b[i]] - primes[a[i] - 1] << endl;
+        // cout << primes[b[i]] - primes[a[i] - 1] << endl;
+        cout << getPrimesBetween(primes, a[i], b[i]) << endl;
     }
 
     return 0;

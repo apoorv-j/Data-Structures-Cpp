@@ -21,7 +21,7 @@ int main()
     int len = m * n - 1;
 
     int median = len / 2;
-    int s = INTMAX_MAX;
+    int s = INT_MAX;
     int e = INT_MIN;
     for (int i = 0; i < n; i++)
     {
