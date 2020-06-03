@@ -5,8 +5,10 @@ string spellings[10] = {"zero", "one", "two", "three", "four", "five", "six", "s
 
 string numberTospell(int n)
 {
-    if (n > 0)
-        return numberTospell(n / 10) + spellings[n % 10];
+    if (n / 10 > 0)
+        return numberTospell(n / 10) + " " + spellings[n % 10];
+
+    return spellings[n % 10];
 }
 int main()
 {
