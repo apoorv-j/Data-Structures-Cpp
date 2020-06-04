@@ -10,6 +10,7 @@ string numberTospell(int n)
 
     return spellings[n % 10];
 }
+
 int main()
 {
     int n;
