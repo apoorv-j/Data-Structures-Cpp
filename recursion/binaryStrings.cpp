@@ -1,28 +1,37 @@
-/* count no of binary strings with no consecutive 1s */
+/* count no of binary strings of length n with no consecutive 1s */
 #include <bits/stdc++.h>
 using namespace std;
 
-int countBinaryStrings(string s, int i)
+int countBinaryStrings(int n)
 {
-    if (i == s.length() - 1)
+    if (n == 0)
         return 1;
 
-    if (i == s.length())
-        return 0;
-
-    if (s[i] == 1 and s[i + 1] == 1)
+    int t = n;
+    while (t > 2)
     {
-        return 1 + countBinaryStrings(s, i + 1);
+        if ((t & 3) == 3)
+            return countBinaryStrings(n - 1);
+        t >>= 1;
     }
 
-    return countBinaryStrings(s, i + 1);
+    return countBinaryStrings(n - 1) + 1;
+}
+
+int validStrings(int n)
+{
+    if (n <= 0)
+        return 1;
+
+    return validStrings(n - 1) + validStrings(n - 2);
 }
 
 int main()
 {
-    string s;
-    getline(cin, s);
-    cout << countBinaryStrings(s, 0);
+    int n;
+    cin >> n;
+    cout << countBinaryStrings((1 << n) - 2) << endl;
+    cout << validStrings(n) << endl;
 
     return 0;
 }
