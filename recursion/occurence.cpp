@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-int firstOcc(int *arr, int n, int key)
+#define ll long long
+ll firstOcc(ll *arr, ll n, ll key)
 {
     if (arr[0] == key)
         return 0;
@@ -9,7 +9,7 @@ int firstOcc(int *arr, int n, int key)
     if (n == 0)
         return -1;
 
-    int i = firstOcc(arr + 1, n - 1, key);
+    ll i = firstOcc(arr + 1, n - 1, key);
 
     if (i == -1)
         return -1;
@@ -17,7 +17,7 @@ int firstOcc(int *arr, int n, int key)
     else
         return i + 1;
 }
-int lastOcc(int *arr, int n, int key)
+ll lastOcc(ll *arr, ll n, ll key)
 {
     n--;
     if (n < 0)
@@ -26,7 +26,7 @@ int lastOcc(int *arr, int n, int key)
         return n;
     return lastOcc(arr, n, key);
 }
-void allOcc(int *arr, int n, int i, int key)
+void allOcc(ll *arr, ll n, ll i, ll key)
 {
     if (i == n)
         return;
@@ -36,23 +36,38 @@ void allOcc(int *arr, int n, int i, int key)
 
     allOcc(arr, n, i + 1, key);
 }
+int allIndices(ll *arr, ll n, ll i, ll key, ll *out, int j)
+{
+    if (i == n)
+    {
+        return j;
+    }
 
+    if (arr[i] == key)
+    {
+        out[j] = i;
+        return allIndices(arr, n, i + 1, key, out, j + 1);
+    }
+
+    return allIndices(arr, n, i + 1, key, out, j);
+}
 int main()
 {
-    int n;
+    ll n;
     cin >> n;
-    int arr[n];
-    for (int i = 0; i < n; i++)
+    ll arr[n];
+    for (ll i = 0; i < n; i++)
     {
         cin >> arr[i];
     }
-    int key;
+    ll key;
     cin >> key;
-    cout << "First Occurence :" << firstOcc(arr, n, key) << endl;
-    cout << "Last Occurence :" << lastOcc(arr, n, key) << endl;
-    cout << "All Occurences :";
-    allOcc(arr, n, 0, key);
-    cout << endl;
+    ll out[n] = {0};
+    int count = allIndices(arr, n, 0, key, out, 0);
 
+    for (int i = 0; i < count; i++)
+    {
+        cout << out[i] << " ";
+    }
     return 0;
 }
