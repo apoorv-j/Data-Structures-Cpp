@@ -1,31 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-bool getSubarrays(int *in, int sum, int i)
+#define ll long long
+bool getSubarrays(ll *in, ll sum, ll i, ll n)
 {
-    if (in[i + 1] == '\0')
+    if (i + 1 == n)
     {
-        if (sum + in[i] == 0)
+        if ((sum + in[i]) == 0)
             return true;
         return false;
     }
-
-    return getSubarrays(in, sum, i + 1) or getSubarrays(in, sum + in[i], i + 1);
+    if ((sum + in[i]) == 0)
+        return true;
+    return getSubarrays(in, sum, i + 1, n) or getSubarrays(in, sum + in[i], i + 1, n);
 }
 int main()
 {
-    int t;
+    ll t;
     cin >> t;
     while (t--)
     {
-        int n;
+        ll n;
         cin >> n;
-        int arr[n];
-        for (int i = 0; i < n; i++)
+        ll arr[n];
+        for (ll i = 0; i < n; i++)
         {
             cin >> arr[i];
         }
-        if (getSubarrays(arr, 0, 0))
+        if (getSubarrays(arr, 0, 0, n))
             cout << "Yes";
 
         else
