@@ -25,12 +25,30 @@ bool isPossible(int board[][11], int i, int j, int n)
     }
     return true;
 }
+void totalCases(int board[][11], int i, int n, int &count)
+{
+    if (i == n)
+    {
+        count++;
+        return;
+    }
+
+    for (int j = 0; j < n; j++)
+    {
+        if (isPossible(board, i, j, n))
+        {
+            board[i][j] = 1;
+            totalCases(board, i + 1, n, count);
+            board[i][j] = 0;
+        }
+    }
+}
 
 bool printQueenPos(int board[][11], int i, int n)
 {
     if (i == n)
     {
-        cout << endl;
+
         for (int x = 0; x < n; x++)
         {
             for (int y = 0; y < n; y++)
@@ -39,6 +57,7 @@ bool printQueenPos(int board[][11], int i, int n)
             }
             cout << endl;
         }
+        cout << endl;
 
         return false;
     }
@@ -67,7 +86,10 @@ int main()
     cin >> n;
 
     int arr[n][11] = {0};
+    int count = 0;
     printQueenPos(arr, 0, n);
+    totalCases(arr, 0, n, count);
+    cout << count;
 
     return 0;
 }
