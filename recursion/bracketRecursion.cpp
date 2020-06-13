@@ -10,15 +10,15 @@ void generateBrackets(int n, int o, int c, char *s, int i)
         return;
     }
 
-    if (o < n)
-    {
-        s[i] = '(';
-        generateBrackets(n, o + 1, c, s, i + 1);
-    }
     if (c < o)
     {
         s[i] = ')';
         generateBrackets(n, o, c + 1, s, i + 1);
+    }
+    if (o < n)
+    {
+        s[i] = '(';
+        generateBrackets(n, o + 1, c, s, i + 1);
     }
 }
 

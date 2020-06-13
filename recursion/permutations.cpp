@@ -1,19 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-void dictionaryOrderLarger(string arr, int i, set<string> &s, string og)
+set<string> s;
+void getPermutations(string arr, int i)
 {
     if (arr[i] == '\0')
     {
-        if (arr > og)
-            s.insert(arr);
+        s.insert(arr);
         return;
     }
 
     for (int j = i; j < arr.length(); j++)
     {
         swap(arr[i], arr[j]);
-        dictionaryOrderLarger(arr, i + 1, s, og);
+        getPermutations(arr, i + 1);
         swap(arr[i], arr[j]);
     }
 }
@@ -22,9 +21,8 @@ int main()
 {
     string arr;
     getline(cin, arr);
-    set<string> large;
-    dictionaryOrderLarger(arr, 0, large, arr);
-    for (auto it : large)
+    getPermutations(arr, 0);
+    for (auto it : s)
     {
         cout << it << endl;
     }

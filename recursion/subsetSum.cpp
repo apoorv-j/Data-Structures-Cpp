@@ -1,37 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-bool getSubarrays(ll *in, ll sum, ll i, ll n)
+
+set<vector<ll>> s;
+void getSubarrays(ll sum, ll *in, ll *out, ll i, ll j, ll n)
 {
-    if (i + 1 == n)
+    if (sum == 0)
     {
-        if ((sum + in[i]) == 0)
-            return true;
-        return false;
+        vector<ll> temp(out, out + j);
+        sort(temp.begin(), temp.end());
+        s.insert(temp);
+        return;
     }
-    if ((sum + in[i]) == 0)
-        return true;
-    return getSubarrays(in, sum, i + 1, n) or getSubarrays(in, sum + in[i], i + 1, n);
+    if (i == n or sum < 0)
+        return;
+
+    out[j] = in[i];
+    getSubarrays(sum - in[i], in, out, i + 1, j + 1, n);
+    getSubarrays(sum, in, out, i + 1, j, n);
 }
 int main()
 {
+    ll n;
+    cin >> n;
+    ll arr[n];
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
     ll t;
     cin >> t;
-    while (t--)
+    ll temp[n];
+    getSubarrays(t, arr, temp, 0, 0, n);
+    for (auto it : s)
     {
-        ll n;
-        cin >> n;
-        ll arr[n];
-        for (ll i = 0; i < n; i++)
+        for (int i = 0; i < it.size(); i++)
         {
-            cin >> arr[i];
+            cout << it[i] << " ";
         }
-        if (getSubarrays(arr, 0, 0, n))
-            cout << "Yes";
-
-        else
-            cout << "No";
-
         cout << endl;
     }
     return 0;

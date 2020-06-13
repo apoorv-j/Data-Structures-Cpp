@@ -3,11 +3,6 @@ using namespace std;
 
 bool isPossible(int board[][11], int i, int j, int n)
 {
-    for (int x = 0; x < i; x++)
-    {
-        if (board[x][j] == 1)
-            return false;
-    }
     for (int x = 0; x < j; x++)
     {
         if (board[i][x] == 1)
