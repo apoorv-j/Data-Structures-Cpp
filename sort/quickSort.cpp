@@ -14,13 +14,19 @@ int partition(int s, int e, int *arr)
     swap(arr[++i], arr[e]);
     return i;
 }
+int partition_rand(int s, int e, int *arr)
+{
+    int p_index = s + rand() % (e - s);
+    swap(arr[p_index], arr[e]);
+    return partition(s, e, arr);
+}
 
 void quickSort(int s, int e, int *arr)
 {
     if (s >= e)
         return;
 
-    int p = partition(s, e, arr);
+    int p = partition_rand(s, e, arr);
     quickSort(s, p - 1, arr);
     quickSort(p + 1, e, arr);
 }
