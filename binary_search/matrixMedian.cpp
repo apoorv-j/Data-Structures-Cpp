@@ -1,47 +1,53 @@
-#include <iostream>
-#include <algorithm>
-#include <climits>
+#include <bits/stdc++.h>
 using namespace std;
-bool isPossible(int **arr, int n, int m, int mid, int median)
+
+int binaryMedian(int **arr, int r, int c)
 {
+    int min = INT_MAX, max = INT_MIN;
+    for (int i = 0; i < r; i++)
+    {
+        // Finding the minimum element
+        if (arr[i][0] < min)
+            min = arr[i][0];
+
+        // Finding the maximum element
+        if (arr[i][c - 1] > max)
+            max = arr[i][c - 1];
+    }
+
+    int desired = (r * c + 1) / 2;
+    while (min < max)
+    {
+        int mid = min + (max - min) / 2;
+        int place = 0;
+        // cout << min << " " << max << " " << mid << endl;
+
+        // Find count of elements smaller than mid
+        for (int i = 0; i < r; ++i)
+            place += upper_bound(arr[i], arr[i] + c, mid) - arr[i];
+        if (place < desired)
+            min = mid + 1;
+        else
+            max = mid;
+    }
+    return min;
 }
+
+// driver program to check above functions
 int main()
 {
     int n, m;
     cin >> n >> m;
-    int *a[n];
-    for (int i = n - 1; i >= 0; i--)
-    {
-        a[i] = new int[m];
-        for (int j = n - 1; j >= 0; j--)
-        {
-            cin >> a[i][j];
-        }
-    }
-    int len = m * n - 1;
-
-    int median = len / 2;
-    int s = INT_MAX;
-    int e = INT_MIN;
+    int *arr[n];
     for (int i = 0; i < n; i++)
     {
-        s = min(s, a[i][0]);
-        e = max(e, a[i][m - 1]);
-    }
-    int mid;
-    int ans;
-    while (s <= e)
-    {
-        mid = (s + e) / 2;
-        if (isPossible(a, n, m, mid, median))
+        arr[i] = new int[m];
+        for (int j = 0; j < m; j++)
         {
-            ans = mid;
-            e = mid - 1;
-        }
-        else
-        {
-            s = mid + 1;
+            cin >> arr[i][j];
         }
     }
+
+    cout << "Median is " << binaryMedian(arr, n, m) << endl;
     return 0;
 }
