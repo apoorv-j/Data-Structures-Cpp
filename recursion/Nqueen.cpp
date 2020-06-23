@@ -75,6 +75,36 @@ bool printQueenPos(int board[][11], int i, int n)
     return false;
 }
 
+bitset<30> col, ld, rd;
+void nqueenBitmasking(int board[][11], int i, int n, int &count)
+{
+    if (i == n)
+    {
+
+        for (int x = 0; x < n; x++)
+        {
+            for (int y = 0; y < n; y++)
+            {
+                cout << board[x][y] << " ";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+    for (int j = 0; j < n; j++)
+    {
+        if (!col[j] and !ld[i + j] and !rd[n - 1 + (i - j)])
+        {
+            board[i][j] = 1;
+            col[j] = ld[i + j] = rd[n - 1 + i - j] = 1;
+            nqueenBitmasking(board, i + 1, n, count);
+            board[i][j] = 0;
+            col[j] = ld[i + j] = rd[n - 1 + i - j] = 0;
+        }
+    }
+}
+
 int main()
 {
     int n;
@@ -82,8 +112,9 @@ int main()
 
     int arr[n][11] = {0};
     int count = 0;
-    printQueenPos(arr, 0, n);
-    totalCases(arr, 0, n, count);
+    // printQueenPos(arr, 0, n);
+    // totalCases(arr, 0, n, count);
+    nqueenBitmasking(arr, 0, n, count);
     cout << count;
 
     return 0;
