@@ -127,28 +127,75 @@ ostream &operator<<(ostream &os, node *&head)
     printList(head);
     return os;
 }
+
+void reverseLinkedList(node *&head)
+{
+    node *prev = NULL;
+    node *temp;
+    while (temp != NULL)
+    {
+        temp = head->next;
+        head->next = prev;
+        prev = head;
+        head = temp;
+    }
+    head = prev;
+}
+
+node *recursiveReverse(node *head)
+{
+    if (head->next == NULL)
+    {
+        return head;
+    }
+
+    node *new_head = recursiveReverse(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return new_head;
+}
+// void reverse(node *prev, node *&head)
+// {
+
+//     if (head->next == NULL)
+//     {
+//         head->next = prev;
+//         cout << "head : " << head;
+//         return;
+//     }
+
+//     node *c = head;
+//     reverse(head, head->next);
+//     c->next = prev;
+//     prev->next = NULL;
+//     cout << "head : " << head;
+//     cout << "prev : " << prev;
+//     cout << "curr : " << c << endl;
+// }
+
 int main()
 {
     int arr[] = {1, 2, 3, 4, 5};
 
     node *head = NULL;
     node *head2 = NULL;
-    // for (int i = 0; i < 5; i++)
-    // {
-    //     insertAtHead(head, arr[i]);
-    // }
+
+    // cin >> head >> head2;
+    // // buildList(head);
+    // cout << head << head2;
     // printList(head);
-    // insertInMiddle(head, 6, 2);
-    // printList(head);
-    // insertAtTail(head, 7);
-    // printList(head);
-    // deleteFromHead(head);
-    // printList(head);
-    // deleteFromTail(head);
-    // printList(head);
-    cin >> head >> head2;
-    // buildList(head);
-    cout << head << head2;
-    // printList(head);
+
+    for (int i = 0; i < 5; i++)
+    {
+        insertAtHead(head, arr[i]);
+    }
+    cout << head;
+    // reverseLinkedList(head);
+    head = recursiveReverse(head);
+    cout << head;
+
+    // reverse(head, head);
+    // cout << head;
+
     return 0;
 }
