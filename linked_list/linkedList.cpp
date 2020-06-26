@@ -47,6 +47,7 @@ int lengthOfList(node *head)
     }
     return len;
 }
+
 void insertInMiddle(node *&head, int data, int index)
 {
     node *new_node = new node(data);
@@ -90,6 +91,7 @@ void deleteFromHead(node *&head)
     head = head->next;
     delete temp;
 }
+
 void deleteFromTail(node *&head)
 {
     if (head == NULL)
@@ -154,24 +156,115 @@ node *recursiveReverse(node *head)
     head->next = NULL;
     return new_head;
 }
-// void reverse(node *prev, node *&head)
-// {
 
-//     if (head->next == NULL)
-//     {
-//         head->next = prev;
-//         cout << "head : " << head;
-//         return;
-//     }
+node *midpointOfList(node *slow, node *fast)
+{
+    if (fast == NULL or fast->next == NULL)
+        return slow;
 
-//     node *c = head;
-//     reverse(head, head->next);
-//     c->next = prev;
-//     prev->next = NULL;
-//     cout << "head : " << head;
-//     cout << "prev : " << prev;
-//     cout << "curr : " << c << endl;
-// }
+    return midpointOfList(slow->next, fast->next->next);
+}
+
+node *kthNodeFromEnd(node *head, int k)
+{
+    if (head == NULL or head->next == NULL)
+    {
+        return head;
+    }
+
+    node *fast = head;
+    while (k != 0)
+    {
+        fast = fast->next;
+        k--;
+    }
+    node *slow = head;
+    while (fast != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
+}
+
+node *getMin(node *head1, node *head2)
+{
+    if (head1->data < head2->data)
+        return head1;
+
+    return head2;
+}
+node *mergeLists(node *head1, node *head2)
+{
+    if (head1 == NULL)
+        return head2;
+    if (head2 == NULL)
+        return head1;
+
+    node *head3;
+    if (head1->data < head2->data)
+    {
+        head3 = head1;
+        head3->next = mergeLists(head1->next, head2);
+    }
+    else
+    {
+        head3 = head2;
+        head3->next = mergeLists(head1, head2->next);
+    }
+    return head3;
+}
+
+node *mergeSort(node *head)
+{
+    if (head == NULL or head->next == NULL)
+        return head;
+    node *mid = midpointOfList(head, head->next);
+
+    node *head1 = mergeSort(mid->next);
+    mid->next = NULL;
+    node *head2 = mergeSort(head);
+    head = mergeLists(head1, head2);
+    return head;
+}
+
+bool detectCycle(node *head)
+{
+    node *fast = head;
+    node *slow = head;
+    while (fast != NULL and fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast)
+            return true;
+    }
+    return false;
+}
+
+void removeCycle(node *&head)
+{
+    // Using floyd's algo
+    node *fast = head;
+    node *slow = head;
+    while (slow != fast)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    slow = head;
+    while (slow != head)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+
+    while (fast->next != slow)
+    {
+        fast = fast->next;
+    }
+    fast->next = NULL;
+}
 
 int main()
 {
@@ -180,22 +273,8 @@ int main()
     node *head = NULL;
     node *head2 = NULL;
 
-    // cin >> head >> head2;
-    // // buildList(head);
-    // cout << head << head2;
-    // printList(head);
-
-    for (int i = 0; i < 5; i++)
-    {
-        insertAtHead(head, arr[i]);
-    }
+    cin >> head;
+    head = mergeSort(head);
     cout << head;
-    // reverseLinkedList(head);
-    head = recursiveReverse(head);
-    cout << head;
-
-    // reverse(head, head);
-    // cout << head;
-
     return 0;
 }
