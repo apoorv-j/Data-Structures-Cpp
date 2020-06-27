@@ -242,28 +242,29 @@ bool detectCycle(node *head)
     return false;
 }
 
-void removeCycle(node *&head)
+node *removeCycle(node *head)
 {
     // Using floyd's algo
-    node *fast = head;
     node *slow = head;
-    while (slow != fast)
+    node *fast = head;
+    do
     {
         slow = slow->next;
         fast = fast->next->next;
-    }
+    } while (slow != fast);
+
     slow = head;
-    while (slow != head)
+    while (slow != fast)
     {
         slow = slow->next;
         fast = fast->next;
     }
-
     while (fast->next != slow)
     {
         fast = fast->next;
     }
     fast->next = NULL;
+    return head;
 }
 
 int main()
@@ -274,7 +275,16 @@ int main()
     node *head2 = NULL;
 
     cin >> head;
-    head = mergeSort(head);
+    // head = mergeSort(head);
+    node *temp = head;
+    while (temp->next != NULL)
+        temp = temp->next;
+    node *start = head->next->next;
+    temp->next = start;
+    cout << boolalpha << detectCycle(head) << endl;
+    head = removeCycle(head);
     cout << head;
+    cout << boolalpha << detectCycle(head) << endl;
+
     return 0;
 }
