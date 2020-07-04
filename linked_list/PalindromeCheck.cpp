@@ -40,40 +40,44 @@ void printList(node *head)
     cout << endl;
 }
 
-node *kReverse(node *head, int k)
+node *reverse(node *head)
 {
+    if (head->next == NULL)
+        return head;
 
-    node *curr = head;
-    node *prev = NULL;
-    node *next = NULL;
-
-    int count = 0;
-
-    while (curr != NULL and count++ < k)
-    {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-
-    if (next != NULL)
-        head->next = kReverse(next, k);
-
-    return prev;
+    node *new_head = reverse(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return new_head;
 }
+
+bool isPalindrome(node *head)
+{
+    node *rl = reverse(head);
+    while (head != NULL)
+    {
+        if (head->data != rl->data)
+            return false;
+
+        head = head->next;
+        rl = rl->next;
+    }
+    return true;
+}
+
 int main()
 {
     node *head = NULL;
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
         int data;
         cin >> data;
         insertAtTail(head, data);
     }
-    head = kReverse(head, k);
-    printList(head);
+
+    cout << boolalpha << isPalindrome(head);
+
     return 0;
 }

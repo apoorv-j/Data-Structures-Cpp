@@ -40,40 +40,53 @@ void printList(node *head)
     cout << endl;
 }
 
-node *kReverse(node *head, int k)
+void insert_node(node *&head, node *curr)
 {
 
+    if (head == NULL or head->data > curr->data)
+    {
+        curr->next = head;
+        head = curr;
+        return;
+    }
+    node *temp = head;
+    node *prev;
+    while (temp != NULL and curr->data > temp->data)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    prev->next = curr;
+    curr->next = temp;
+}
+
+node *insertion_sort(node *head)
+{
+    node *sorted = NULL;
     node *curr = head;
-    node *prev = NULL;
-    node *next = NULL;
-
-    int count = 0;
-
-    while (curr != NULL and count++ < k)
+    node *next;
+    while (curr != NULL)
     {
         next = curr->next;
-        curr->next = prev;
-        prev = curr;
+        insert_node(sorted, curr);
         curr = next;
     }
-
-    if (next != NULL)
-        head->next = kReverse(next, k);
-
-    return prev;
+    return sorted;
 }
+
 int main()
 {
     node *head = NULL;
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
         int data;
         cin >> data;
         insertAtTail(head, data);
     }
-    head = kReverse(head, k);
+
+    head = insertion_sort(head);
     printList(head);
     return 0;
 }

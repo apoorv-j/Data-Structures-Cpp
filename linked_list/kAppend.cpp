@@ -40,40 +40,48 @@ void printList(node *head)
     cout << endl;
 }
 
-node *kReverse(node *head, int k)
+node *kAppend(node *head, int n, int k)
 {
+    if (k >= n)
+        k = k % n;
 
-    node *curr = head;
-    node *prev = NULL;
-    node *next = NULL;
+    if (k < 1)
+        return head;
 
+    node *temp = head;
     int count = 0;
 
-    while (curr != NULL and count++ < k)
+    while (count++ < n - k - 1)
     {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
+        temp = temp->next;
     }
+    node *end = temp;
 
-    if (next != NULL)
-        head->next = kReverse(next, k);
-
-    return prev;
+    node *head2 = temp->next;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    end->next = NULL;
+    temp->next = head;
+    return head2;
 }
+
 int main()
 {
     node *head = NULL;
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
         int data;
         cin >> data;
         insertAtTail(head, data);
     }
-    head = kReverse(head, k);
+    int k;
+    cin >> k;
+    head = kAppend(head, n, k);
     printList(head);
+
     return 0;
 }

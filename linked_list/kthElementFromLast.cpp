@@ -40,40 +40,36 @@ void printList(node *head)
     cout << endl;
 }
 
-node *kReverse(node *head, int k)
+int kthElement(node *head, int k)
 {
-
-    node *curr = head;
-    node *prev = NULL;
-    node *next = NULL;
-
-    int count = 0;
-
-    while (curr != NULL and count++ < k)
+    node *fast = head;
+    node *slow = head;
+    while (k-- > 0)
     {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
+        fast = fast->next;
     }
-
-    if (next != NULL)
-        head->next = kReverse(next, k);
-
-    return prev;
+    while (fast != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow->data;
 }
+
 int main()
 {
     node *head = NULL;
-    int n, k;
-    cin >> n >> k;
-    for (int i = 0; i < n; i++)
+
+    int data;
+    cin >> data;
+    while (data != -1)
     {
-        int data;
-        cin >> data;
         insertAtTail(head, data);
+        cin >> data;
     }
-    head = kReverse(head, k);
-    printList(head);
+    int k;
+    cin >> k;
+    cout << kthElement(head, k);
+
     return 0;
 }

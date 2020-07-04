@@ -40,40 +40,42 @@ void printList(node *head)
     cout << endl;
 }
 
-node *kReverse(node *head, int k)
+void removeCycle(node *&head)
 {
-
-    node *curr = head;
-    node *prev = NULL;
-    node *next = NULL;
-
-    int count = 0;
-
-    while (curr != NULL and count++ < k)
+    node *l1 = head;
+    node *l2 = NULL;
+    int counter = 0;
+    while (l1->next != NULL)
     {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
+        counter++;
+        l2 = l1->next;
+        node *temp = head;
+        for (int i = 0; i < counter; i++)
+        {
+            if (l2->data == temp->data)
+            {
+                l1->next = NULL;
+                return;
+            }
+            temp = temp->next;
+        }
+        l1 = l1->next;
     }
-
-    if (next != NULL)
-        head->next = kReverse(next, k);
-
-    return prev;
 }
+
 int main()
 {
     node *head = NULL;
-    int n, k;
-    cin >> n >> k;
-    for (int i = 0; i < n; i++)
+    int data;
+    cin >> data;
+    while (data != -1)
     {
-        int data;
-        cin >> data;
         insertAtTail(head, data);
+        cin >> data;
     }
-    head = kReverse(head, k);
+
+    removeCycle(head);
     printList(head);
+
     return 0;
 }
